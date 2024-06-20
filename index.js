@@ -28,14 +28,19 @@ if (currentHour < 12) {
 // Add Task to DOM
 tasks.map((task) => {
     let taskDiv = document.createElement('div');
+    let updateForm = document.createElement('form');
+    let updateInput = document.createElement('input');
     taskDiv.innerHTML = `
         <div class="m-2 bg-gray-900 rounded-lg p-2 border-l-8 border-green-400 text-gray-300">
             <h2 class="text-2xl text-green-500 font-bold">${task.task}</h2>
             <p>${task.description}</p>
-            <div class="grid justify-end items-center">
+            <div class="grid grid-cols-2 items-center">
                 <img 
                     onclick="handleDelete(${task.task_id})" 
                     class="delete w-6 cursor-pointer" src="https://cdn-icons-png.flaticon.com/128/6861/6861362.png" alt="Delete Icon">
+                <img 
+                    onclick="handleUpdate(${task.task_id})" 
+                    class="update w-6 cursor-pointer" src="https://cdn-icons-png.flaticon.com/128/1160/1160758.png" alt="Update Icon">
             </div>
         </div>
     `;
@@ -50,7 +55,12 @@ function handleInputChange(e) {
 
 // handleUpdate
 function handleUpdate(task_id){
-    
+    const task = tasks.find((task) => task.task_id === task_id);
+    task.task = inputValues.task;
+    task.description = inputValues.description;
+    localStorage.setItem('allTasks', JSON.stringify(tasks));
+
+    window.location.reload();
 
 }
 
